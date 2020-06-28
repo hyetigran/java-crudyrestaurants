@@ -3,13 +3,14 @@ package com.lambdaschool.crudyrestaurants.controllers;
 import com.lambdaschool.crudyrestaurants.models.Restaurant;
 import com.lambdaschool.crudyrestaurants.services.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -17,8 +18,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/restaurants")
-public class RestaurantController
-{
+public class RestaurantController {
     /**
      * Using the restaurant service to process restaurant data.
      */
@@ -34,11 +34,10 @@ public class RestaurantController
      */
     @GetMapping(value = "/restaurants",
             produces = {"application/json"})
-    public ResponseEntity<?> listAllRestaurants()
-    {
+    public ResponseEntity<?> listAllRestaurants() {
         List<Restaurant> myRestaurants = restaurantService.findAllRestaurants();
         return new ResponseEntity<>(myRestaurants,
-                                    HttpStatus.OK);
+                HttpStatus.OK);
     }
 
     /**
@@ -53,11 +52,10 @@ public class RestaurantController
             produces = {"application/json"})
     public ResponseEntity<?> getRestaurantById(
             @PathVariable
-                    Long restaurantId)
-    {
+                    Long restaurantId) {
         Restaurant r = restaurantService.findRestaurantById(restaurantId);
         return new ResponseEntity<>(r,
-                                    HttpStatus.OK);
+                HttpStatus.OK);
     }
 
     /**
@@ -72,11 +70,10 @@ public class RestaurantController
             produces = {"application/json"})
     public ResponseEntity<?> getRestaurantByName(
             @PathVariable
-                    String name)
-    {
+                    String name) {
         Restaurant r = restaurantService.findRestaurantByName(name);
         return new ResponseEntity<>(r,
-                                    HttpStatus.OK);
+                HttpStatus.OK);
     }
 
     /**
@@ -91,11 +88,10 @@ public class RestaurantController
             produces = "application/json")
     public ResponseEntity<?> findRestaurantByState(
             @PathVariable
-                    String findstate)
-    {
+                    String findstate) {
         List<Restaurant> rtnList = restaurantService.findByState(findstate);
         return new ResponseEntity<>(rtnList,
-                                    HttpStatus.OK);
+                HttpStatus.OK);
     }
 
     /**
@@ -107,13 +103,45 @@ public class RestaurantController
      * @see RestaurantService#findByNameLike(String) RestaurantService.findByNameLike(String).
      */
     @GetMapping(value = "/restaurant/likename/{restname}",
-            produces = "application/json")
+            produces = {"application/json"})
     public ResponseEntity<?> findRestaurantByNameLike(
             @PathVariable
-                    String restname)
-    {
+                    String restname) {
         List<Restaurant> rtnList = restaurantService.findByNameLike(restname);
         return new ResponseEntity<>(rtnList,
-                                    HttpStatus.OK);
+                HttpStatus.OK);
     }
+
+    @PostMapping(value = "/restaurant/restaurant", consumes = {"application/json"})
+    public ResponseEntity<?> addNewRestaurant(@Validated @RequestBody Restaurant newRestaurant) {
+        newRestaurant.setRestaurantid(0);
+        newRestaurant = restaurantService.save(newRestaurant);
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        URI newRestaurantURI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{restaurantid}").buildAndExpand(newRestaurant.getRestaurantid()).toUri();
+        responseHeaders.setLocation(newRestaurantURI);
+
+        return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
+    }
+
+    @PutMapping(value = "/restaurant/{restaurantid}", consumes = {"application/json"})
+    public ResponseEntity<?> updateFullRestaurant(@Validated @RequestBody Restaurant updateRestaurant, @PathVariable long restaurantid) {
+        updateRestaurant.setRestaurantid(restaurantid);
+        restaurantService.save(updateRestaurant);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PatchMapping(value = "/restaurant/{restaurantid}", consumes = {"application/json"})
+    public ResponseEntity<?> updateRestaurant(@RequestBody Restaurant updateRestaurant, @PathVariable long restaurantid) {
+        restaurantService.update(updateRestaurant, restaurantid);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/restaurant/{restaurantid}",
+            produces = {"application/json"})
+    public ResponseEntity<?> deleteRestaurantById(@PathVariable long restaurantid) {
+        restaurantService.delete(restaurantid);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

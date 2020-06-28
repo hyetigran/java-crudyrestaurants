@@ -7,8 +7,7 @@ import java.util.List;
 /**
  * The Service that works with the Menu Model.
  */
-public interface MenuService
-{
+public interface MenuService {
     /**
      * Returns a list of all the menus.
      *

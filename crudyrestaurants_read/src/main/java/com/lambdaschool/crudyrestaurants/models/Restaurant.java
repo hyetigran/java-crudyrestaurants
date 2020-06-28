@@ -2,17 +2,7 @@ package com.lambdaschool.crudyrestaurants.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +11,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "restaurants")
-public class Restaurant
-{
+public class Restaurant {
     /**
      * The primary key number (long) of the restaurants table.
      */
@@ -63,6 +52,8 @@ public class Restaurant
      */
     private int seatcapacity;
 
+    @Transient
+    public boolean hasvalueforseatcapacity = false;
     /**
      * Creates a join table joining Restaurants and Payments in a Many-To-Many relations.
      * Contains a List of Payment Objects used by this restaurant.
@@ -87,8 +78,7 @@ public class Restaurant
     /**
      * Default constructor used primarily by the JPA.
      */
-    public Restaurant()
-    {
+    public Restaurant() {
     }
 
     /**
@@ -110,8 +100,7 @@ public class Restaurant
             String city,
             String state,
             String telephone,
-            int seatcapacity)
-    {
+            int seatcapacity) {
         this.name = name;
         this.address = address;
         this.city = city;
@@ -125,8 +114,7 @@ public class Restaurant
      *
      * @return The primary key number (long) of the restaurant's table.
      */
-    public long getRestaurantid()
-    {
+    public long getRestaurantid() {
         return restaurantid;
     }
 
@@ -135,8 +123,7 @@ public class Restaurant
      *
      * @param restaurantid The new primary key number (long) of the restaurants table.
      */
-    public void setRestaurantid(long restaurantid)
-    {
+    public void setRestaurantid(long restaurantid) {
         this.restaurantid = restaurantid;
     }
 
@@ -145,8 +132,7 @@ public class Restaurant
      *
      * @return The name (String) of the Restaurant.
      */
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
@@ -155,8 +141,7 @@ public class Restaurant
      *
      * @param name The new name (String) of the Restaurant.
      */
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -165,8 +150,7 @@ public class Restaurant
      *
      * @return The address (String) of the Restaurant.
      */
-    public String getAddress()
-    {
+    public String getAddress() {
         return address;
     }
 
@@ -175,8 +159,7 @@ public class Restaurant
      *
      * @param address The new address (String) for the Restaurant.
      */
-    public void setAddress(String address)
-    {
+    public void setAddress(String address) {
         this.address = address;
     }
 
@@ -185,8 +168,7 @@ public class Restaurant
      *
      * @return The city (String) where the restaurant is located.
      */
-    public String getCity()
-    {
+    public String getCity() {
         return city;
     }
 
@@ -195,8 +177,7 @@ public class Restaurant
      *
      * @param city The new city (String) of the restaurant.
      */
-    public void setCity(String city)
-    {
+    public void setCity(String city) {
         this.city = city;
     }
 
@@ -205,8 +186,7 @@ public class Restaurant
      *
      * @return The state (String) of the current restaurant.
      */
-    public String getState()
-    {
+    public String getState() {
         return state;
     }
 
@@ -215,8 +195,7 @@ public class Restaurant
      *
      * @param state The new state (String) of the restaurant.
      */
-    public void setState(String state)
-    {
+    public void setState(String state) {
         this.state = state;
     }
 
@@ -225,8 +204,7 @@ public class Restaurant
      *
      * @return The telephone number (String) of the current restaurant.
      */
-    public String getTelephone()
-    {
+    public String getTelephone() {
         return telephone;
     }
 
@@ -235,8 +213,7 @@ public class Restaurant
      *
      * @param telephone The new telephone number (String) for the restaurant.
      */
-    public void setTelephone(String telephone)
-    {
+    public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
 
@@ -245,8 +222,7 @@ public class Restaurant
      *
      * @return A List of menus associated with the current restaurant.
      */
-    public List<Menu> getMenus()
-    {
+    public List<Menu> getMenus() {
         return menus;
     }
 
@@ -255,8 +231,7 @@ public class Restaurant
      *
      * @param menus A new list of menus for this restaurant.
      */
-    public void setMenus(List<Menu> menus)
-    {
+    public void setMenus(List<Menu> menus) {
         this.menus = menus;
     }
 
@@ -265,8 +240,7 @@ public class Restaurant
      *
      * @return How many (integer) seats this restaurant has.
      */
-    public int getSeatcapacity()
-    {
+    public int getSeatcapacity() {
         return seatcapacity;
     }
 
@@ -275,9 +249,9 @@ public class Restaurant
      *
      * @param seatcapacity The new amount (integer) of seats this restaurant has.
      */
-    public void setSeatcapacity(int seatcapacity)
-    {
+    public void setSeatcapacity(int seatcapacity) {
         this.seatcapacity = seatcapacity;
+        this.hasvalueforseatcapacity = true;
     }
 
     /**
@@ -285,8 +259,7 @@ public class Restaurant
      *
      * @return The list of Payments used by this restaurant.
      */
-    public List<Payment> getPayments()
-    {
+    public List<Payment> getPayments() {
         return payments;
     }
 
@@ -296,9 +269,13 @@ public class Restaurant
      *
      * @param payments A new list of Payments to be used by this restaurant.
      */
-    public void setPayments(List<Payment> payments)
-    {
+    public void setPayments(List<Payment> payments) {
         this.payments = payments;
+    }
+
+    public void addPayment(Payment payment) {
+        payment.getRestaurants().add(this);
+        payments.add(payment);
     }
 
     /**
@@ -307,8 +284,7 @@ public class Restaurant
      * @return The restaurant id, name, address, city, state, telephone, seatcapacity, menus.toString, payments.toString
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "\n\tRestaurant{" + "restaurantid=" + restaurantid + ", name='" + name + '\'' + ", address='" + address + '\'' + ", city='" + city + '\'' + ", state='" + state + '\'' + ", telephone='" + telephone + '\'' + ", seatcapacity=" + seatcapacity + ", menus=" + menus + ", payments=" + payments + '}';
     }
 }

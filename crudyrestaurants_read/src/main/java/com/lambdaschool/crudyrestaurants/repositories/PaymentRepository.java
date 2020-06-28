@@ -7,6 +7,5 @@ import org.springframework.data.repository.CrudRepository;
  * The CRUD Repository connecting Payment to the rest of the application.
  */
 public interface PaymentRepository
-        extends CrudRepository<Payment, Long>
-{
+        extends CrudRepository<Payment, Long> {
 }

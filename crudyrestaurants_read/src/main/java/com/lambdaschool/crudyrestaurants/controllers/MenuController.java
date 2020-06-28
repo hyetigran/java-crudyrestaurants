@@ -17,8 +17,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/menus")
-public class MenuController
-{
+public class MenuController {
     /**
      * Using the menu service to process menu data.
      */
@@ -34,10 +33,9 @@ public class MenuController
      */
     @GetMapping(value = "/menus",
             produces = {"application/json"})
-    public ResponseEntity<?> listAllMenus()
-    {
+    public ResponseEntity<?> listAllMenus() {
         List<Menu> myMenus = menuService.findAllMenus();
         return new ResponseEntity<>(myMenus,
-                                    HttpStatus.OK);
+                HttpStatus.OK);
     }
 }

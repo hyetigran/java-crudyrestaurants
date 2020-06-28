@@ -2,22 +2,14 @@ package com.lambdaschool.crudyrestaurants.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * The entity allowing interaction with the menus table.
  */
 @Entity
 @Table(name = "menus")
-public class Menu
-{
+public class Menu {
     /**
      * The primary key number (long) of the menus table.
      */
@@ -50,8 +42,7 @@ public class Menu
     /**
      * Default constructor used primarily by the JPA.
      */
-    public Menu()
-    {
+    public Menu() {
     }
 
     /**
@@ -66,8 +57,7 @@ public class Menu
     public Menu(
             String dish,
             double price,
-            Restaurant restaurant)
-    {
+            Restaurant restaurant) {
         this.dish = dish;
         this.price = price;
         this.restaurant = restaurant;
@@ -78,8 +68,7 @@ public class Menu
      *
      * @return The primary key number (long) of the menus table.
      */
-    public long getMenuid()
-    {
+    public long getMenuid() {
         return menuid;
     }
 
@@ -88,8 +77,7 @@ public class Menu
      *
      * @param menuid The new primary key (long) number of the menus table.
      */
-    public void setMenuid(long menuid)
-    {
+    public void setMenuid(long menuid) {
         this.menuid = menuid;
     }
 
@@ -98,8 +86,7 @@ public class Menu
      *
      * @return The name (String) of the menu's dish.
      */
-    public String getDish()
-    {
+    public String getDish() {
         return dish;
     }
 
@@ -108,8 +95,7 @@ public class Menu
      *
      * @param dish The new name (String) of the menu's dish.
      */
-    public void setDish(String dish)
-    {
+    public void setDish(String dish) {
         this.dish = dish;
     }
 
@@ -118,8 +104,7 @@ public class Menu
      *
      * @return The cost (double) of the menu item.
      */
-    public double getPrice()
-    {
+    public double getPrice() {
         return price;
     }
 
@@ -128,8 +113,7 @@ public class Menu
      *
      * @param price The new price (double) of the menu item.
      */
-    public void setPrice(double price)
-    {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -138,8 +122,7 @@ public class Menu
      *
      * @return The Restaurant object associated with this menu.
      */
-    public Restaurant getRestaurant()
-    {
+    public Restaurant getRestaurant() {
         return restaurant;
     }
 
@@ -148,8 +131,7 @@ public class Menu
      *
      * @param restaurant The new restaurant for this menu.
      */
-    public void setRestaurant(Restaurant restaurant)
-    {
+    public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
     }
 
@@ -159,8 +141,7 @@ public class Menu
      * @return String of menuid, dish, price, restaurant id, restaurant name.
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "\n\tMenu{" + "menuid=" + menuid + ", dish='" + dish + '\'' + ", price=" + price + ", restaurant id=" + restaurant.getRestaurantid() + ", restaurant name=" + restaurant.getName() + '}';
     }
 }

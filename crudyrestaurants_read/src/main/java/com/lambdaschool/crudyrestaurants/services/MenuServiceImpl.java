@@ -15,8 +15,7 @@ import java.util.List;
 @Transactional
 @Service(value = "menuService")
 public class MenuServiceImpl
-        implements MenuService
-{
+        implements MenuService {
     /**
      * Connects this service to the Menus Table.
      */
@@ -24,8 +23,7 @@ public class MenuServiceImpl
     private MenuRepository menurepos;
 
     @Override
-    public List<Menu> findAllMenus()
-    {
+    public List<Menu> findAllMenus() {
         List<Menu> list = new ArrayList<>();
         /*
          * findAll returns an iterator set.

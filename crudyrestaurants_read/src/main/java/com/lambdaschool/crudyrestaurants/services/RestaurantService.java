@@ -7,8 +7,7 @@ import java.util.List;
 /**
  * The Service that works with the Restaurant Model.
  */
-public interface RestaurantService
-{
+public interface RestaurantService {
     /**
      * Returns a list of all the restaurants.
      *
@@ -47,4 +46,13 @@ public interface RestaurantService
      * @return A list of all restaurants whose name contains the given substring. If no matching Restaurant, empty list.
      */
     List<Restaurant> findByNameLike(String thename);
+
+    void delete(long id);
+
+    //    Handles post and put
+    Restaurant save(Restaurant restaurant);
+
+
+    // Handles patch
+    Restaurant update(Restaurant restaurant, long id);
 }

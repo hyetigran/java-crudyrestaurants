@@ -2,13 +2,7 @@ package com.lambdaschool.crudyrestaurants.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +11,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "payments")
-public class Payment
-{
+public class Payment {
     /**
      * The primary key number (long) of the payments table.
      */
@@ -44,8 +37,7 @@ public class Payment
     /**
      * Default Constructor used primarily by the JPA.
      */
-    public Payment()
-    {
+    public Payment() {
     }
 
     /**
@@ -55,8 +47,7 @@ public class Payment
      *
      * @param type The type (String) of payment. Cannot be null.
      */
-    public Payment(String type)
-    {
+    public Payment(String type) {
         this.type = type;
     }
 
@@ -65,8 +56,7 @@ public class Payment
      *
      * @return The primary key number (long) of the payments table.
      */
-    public long getPaymentid()
-    {
+    public long getPaymentid() {
         return paymentid;
     }
 
@@ -75,8 +65,7 @@ public class Payment
      *
      * @param paymentid The new primary key (long) number of the payments table.
      */
-    public void setPaymentid(long paymentid)
-    {
+    public void setPaymentid(long paymentid) {
         this.paymentid = paymentid;
     }
 
@@ -85,8 +74,7 @@ public class Payment
      *
      * @return The type (String) of the payment.
      */
-    public String getType()
-    {
+    public String getType() {
         return type;
     }
 
@@ -95,8 +83,7 @@ public class Payment
      *
      * @param type The new type (String) of this payment.
      */
-    public void setType(String type)
-    {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -105,8 +92,7 @@ public class Payment
      *
      * @return List of Restaurant objects using this payment.
      */
-    public List<Restaurant> getRestaurants()
-    {
+    public List<Restaurant> getRestaurants() {
         return restaurants;
     }
 
@@ -115,8 +101,7 @@ public class Payment
      *
      * @param restaurants The new list of Restaurant objects using this payment.
      */
-    public void setRestaurants(List<Restaurant> restaurants)
-    {
+    public void setRestaurants(List<Restaurant> restaurants) {
         this.restaurants = restaurants;
     }
 }

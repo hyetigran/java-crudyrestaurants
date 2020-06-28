@@ -10,15 +10,13 @@ import org.springframework.test.context.junit4.SpringRunner;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class CrudyrestaurantsApplicationTests
-{
+public class CrudyrestaurantsApplicationTests {
 
     /**
      * The first test. Left empty for now.
      */
     @Test
-    public void contextLoads()
-    {
+    public void contextLoads() {
     }
 
 }
